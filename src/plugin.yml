@@ -1,12 +1,10 @@
 name: Landlord
-main: com.jcdesimp.landlord.Landlord
-version: 1.3.1
-author: Jcdesimp
-authors: []
+main: com.evilcodes.landlord.Landlord
+version: 2.0.0
+author: EvilCodes
+authors: [EvilCodes,Jcdesimp]
 website: http://dev.bukkit.org/bukkit-plugins/landlord/
-
 softdepend: [Vault, WorldGuard]
-
 commands:
    landlord:
       aliases: [land, ll]
@@ -16,22 +14,17 @@ commands:
       permission-message: You don't have permission.
 
 permissions:
-
-
-
     landlord.*:
         description: Gives access to all landlord commands
         children:
             landlord.player.*: true
             landlord.admin.*: true
-
     landlord.player.*:
             description: Gives access to default player commands.
             children:
                 landlord.player.own: true
                 landlord.player.map: true
                 landlord.player.info: true
-
     landlord.admin.*:
         description: Gives access to admin commands.
         children:
@@ -43,11 +36,9 @@ permissions:
             landlord.admin.reload: true
             landlord.admin.modifyfriends: true
             landlord.admin.friends: true
-
     landlord.use:
             description: required to use any commands
             default: true
-
     landlord.player.own:
         description: permission for plot ownership (claim, unclaim, manage, friends, etc.)
         default: true
@@ -76,7 +67,6 @@ permissions:
     landlord.limit.override:
         description: allows unlimited land ownership
         default: false
-
     landlord.admin.unclaim:
         description: Unclaim anyone's land
         default: op
