@@ -19,7 +19,7 @@ import static org.bukkit.Bukkit.getOfflinePlayer;
 
 @SuppressWarnings("UnusedDeclaration")
 @Entity
-@Table(name="ll_friend")
+@Table(name = "ll_friend")
 public class Friend {
 
     @Id
@@ -56,7 +56,7 @@ public class Friend {
     }
 
     @Override
-    public boolean equals(Object obj){
+    public boolean equals(Object obj) {
         return obj instanceof Friend && ((Friend) obj).getPlayerName().equalsIgnoreCase(playerName);
     }
 
@@ -68,7 +68,7 @@ public class Friend {
          */
         OfflinePlayer op = getOfflinePlayer(UUID.fromString(playerName));
         if (!op.hasPlayedBefore() && !op.isOnline()) {
-            return ChatColor.ITALIC+"Unknown";
+            return ChatColor.ITALIC + "Unknown";
         }
         return op.getName();
     }

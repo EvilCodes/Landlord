@@ -23,7 +23,7 @@ import static org.bukkit.Bukkit.getOfflinePlayer;
 
 @SuppressWarnings("UnusedDeclaration")
 @Entity
-@Table(name="ll_land")
+@Table(name = "ll_land")
 public class OwnedLand {
 
 
@@ -33,12 +33,9 @@ public class OwnedLand {
     private int id;
 
 
-
     //Used to be the owners username
     @NotNull
     private String ownerName;
-
-
 
 
     @NotNull
@@ -112,8 +109,9 @@ public class OwnedLand {
 
     /**
      * Sets the properties of an OwnedLand instance
+     *
      * @param pUUID name of player to be set owner
-     * @param c chunk to be represented
+     * @param c     chunk to be represented
      */
     public void setProperties(UUID pUUID, Chunk c) {
         ownerName = pUUID.toString();
@@ -158,7 +156,7 @@ public class OwnedLand {
          * *************************************
          */
         if (!getOfflinePlayer(UUID.fromString(ownerName)).hasPlayedBefore() && !getOfflinePlayer(UUID.fromString(ownerName)).isOnline()) {
-            return ChatColor.ITALIC+"Unknown";
+            return ChatColor.ITALIC + "Unknown";
         }
         return getOfflinePlayer(UUID.fromString(ownerName)).getName();
     }
@@ -196,7 +194,7 @@ public class OwnedLand {
     }
 
     public int getXBlock() {
-        return getChunk().getBlock(0,0,0).getX();
+        return getChunk().getBlock(0, 0, 0).getX();
     }
 
     public int getZBlock() {
@@ -240,6 +238,7 @@ public class OwnedLand {
 
     /**
      * Get default permission string
+     *
      * @return default permission string
      */
     private String[][] getDefaultPerms() {
@@ -247,57 +246,57 @@ public class OwnedLand {
         ArrayList<String> friendsPerms = new ArrayList<String>();
         guestPerms.add("1");
         friendsPerms.add("1");
-        for(int i = 0; i<(Landlord.getInstance()).getFlagManager().numStoredPerms(); i++){
+        for (int i = 0; i < (Landlord.getInstance()).getFlagManager().numStoredPerms(); i++) {
             guestPerms.add("0");
             friendsPerms.add("1");
         }
 
 
-        return new String[][]{guestPerms.toArray(new String[guestPerms.size()]),friendsPerms.toArray(new String[friendsPerms.size()])};
+        return new String[][]{guestPerms.toArray(new String[guestPerms.size()]), friendsPerms.toArray(new String[friendsPerms.size()])};
     }
 
-    public String[][] getLandPerms(){
+    public String[][] getLandPerms() {
         String perms = getPermissions();
 
-        if (perms==null){
+        if (perms == null) {
             //System.out.println("Is null...");
             return getDefaultPerms();
         }
         String[] permString = perms.split("\\|");
         //ArrayList<String[]> permArray = new ArrayList<String[]>();
         ArrayList<String> newPermString = new ArrayList<String>();
-        for (String s : permString){
+        for (String s : permString) {
             newPermString.add(Integer.toBinaryString(Integer.parseInt(s)));
         }
 
         String ePerms = newPermString.get(0);
-        while(ePerms.length()<Landlord.getInstance().getFlagManager().numStoredPerms()+1){
+        while (ePerms.length() < Landlord.getInstance().getFlagManager().numStoredPerms() + 1) {
             ePerms += "0";
         }
         newPermString.set(0, ePerms);
         String fPerms = newPermString.get(1);
-        while(fPerms.length()<Landlord.getInstance().getFlagManager().numStoredPerms()+1){
+        while (fPerms.length() < Landlord.getInstance().getFlagManager().numStoredPerms() + 1) {
             fPerms += "1";
         }
         newPermString.set(1, fPerms);
 
         String[][] permArray = new String[newPermString.size()][];
-        for(int i = 0; i<newPermString.size(); i++){
+        for (int i = 0; i < newPermString.size(); i++) {
             //permArray.add(permString[i].split(""));
-            permArray[i]=newPermString.get(i).split("(?!^)");
+            permArray[i] = newPermString.get(i).split("(?!^)");
         }
         //return permArray.toArray(new String[permArray.size()]);
         return permArray;
     }
 
-    public boolean hasPermTo(Player player, Landflag lf){
-        if(player.hasPermission("landlord.admin.bypass") || player.getUniqueId().equals(ownerUUID())){
+    public boolean hasPermTo(Player player, Landflag lf) {
+        if (player.hasPermission("landlord.admin.bypass") || player.getUniqueId().equals(ownerUUID())) {
             return true;
         }
         String[][] perms = getLandPerms();
         int applicablePermSlot = (Landlord.getInstance()).getFlagManager()
                 .getRegisteredFlags().get(lf.getClass().getSimpleName()).getPermSlot();
-        if(UUID.fromString(getOwnerName()).equals(player.getUniqueId())){
+        if (UUID.fromString(getOwnerName()).equals(player.getUniqueId())) {
             return true;
         } else if (isFriend(player)) {
             String[] subPerms = perms[1];
@@ -310,7 +309,7 @@ public class OwnedLand {
         }
     }
 
-    public boolean canEveryone(Landflag lf){
+    public boolean canEveryone(Landflag lf) {
         String[][] perms = getLandPerms();
         int applicablePermSlot = (Landlord.getInstance()).getFlagManager()
                 .getRegisteredFlags().get(lf.getClass().getSimpleName()).getPermSlot();
@@ -321,14 +320,14 @@ public class OwnedLand {
 
     public String permsToString(String[][] perms) {
         String permString = "";
-        for(int i = 0; i<perms.length; i++){
+        for (int i = 0; i < perms.length; i++) {
             String currPerm = "";
-            for(int ii = 0; ii<perms[i].length; ii++){
+            for (int ii = 0; ii < perms[i].length; ii++) {
                 currPerm += perms[i][ii];
 
             }
-            permString+=Integer.toString(Integer.parseInt(currPerm,2));
-            if(i+1<perms.length){
+            permString += Integer.toString(Integer.parseInt(currPerm, 2));
+            if (i + 1 < perms.length) {
                 permString += "|";
             }
 
@@ -341,11 +340,12 @@ public class OwnedLand {
     /**
      * Attempt to add a friend
      * Checks to make sure player is not already a friend of and instance
+     *
      * @param f Friend to be added
      * @return boolean true if success false if already a friend
      */
     public boolean addFriend(Friend f) {
-        if(!isFriend(f)){
+        if (!isFriend(f)) {
             friends.add(f);
             return true;
         }
@@ -354,11 +354,12 @@ public class OwnedLand {
 
     /**
      * Removes a friend
+     *
      * @param f friend to remove
      * @return boolean
      */
     public boolean removeFriend(Friend f) {
-        if(isFriend(f)){
+        if (isFriend(f)) {
             Friend frd = Landlord.getInstance().getDatabase().find(Friend.class).where()
                     .eq("id", friends.get(friends.indexOf(f)).getId()).findUnique();
             Landlord.getInstance().getDatabase().delete(frd);
@@ -370,6 +371,7 @@ public class OwnedLand {
     /**
      * Returns whether or not a player is
      * a friend of this land
+     *
      * @param f Friend to be checked
      * @return boolean is a friend or not
      */
@@ -388,26 +390,28 @@ public class OwnedLand {
 
     /**
      * Highlights the border around the chunk with a particle effect.
+     *
      * @param p player
      * @param e effect to play
      */
-    public void highlightLand(Player p, Effect e){
+    public void highlightLand(Player p, Effect e) {
         highlightLand(p, e, 5);
 
     }
-    public void highlightLand(Player p, Effect e, int amt){
-        if(!Landlord.getInstance().getConfig().getBoolean("options.particleEffects",true)){
+
+    public void highlightLand(Player p, Effect e, int amt) {
+        if (!Landlord.getInstance().getConfig().getBoolean("options.particleEffects", true)) {
             return;
         }
         Chunk chunk = getChunk();
         ArrayList<Location> edgeBlocks = new ArrayList<Location>();
-        for(int i = 0; i<16; i++){
-            for(int ii = -1; ii<=10; ii++){
+        for (int i = 0; i < 16; i++) {
+            for (int ii = -1; ii <= 10; ii++) {
 
-                edgeBlocks.add(chunk.getBlock(i, (int) (p.getLocation().getY())+ii, 15).getLocation());
-                edgeBlocks.add(chunk.getBlock(i, (int) (p.getLocation().getY())+ii, 0).getLocation());
-                edgeBlocks.add(chunk.getBlock(0, (int) (p.getLocation().getY())+ii, i).getLocation());
-                edgeBlocks.add(chunk.getBlock(15, (int) (p.getLocation().getY())+ii, i).getLocation());
+                edgeBlocks.add(chunk.getBlock(i, (int) (p.getLocation().getY()) + ii, 15).getLocation());
+                edgeBlocks.add(chunk.getBlock(i, (int) (p.getLocation().getY()) + ii, 0).getLocation());
+                edgeBlocks.add(chunk.getBlock(0, (int) (p.getLocation().getY()) + ii, i).getLocation());
+                edgeBlocks.add(chunk.getBlock(15, (int) (p.getLocation().getY()) + ii, i).getLocation());
             }
 
 
@@ -415,7 +419,7 @@ public class OwnedLand {
         //BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
 
         for (Location edgeBlock : edgeBlocks) {
-            edgeBlock.setZ(edgeBlock.getBlockZ()+.5);
+            edgeBlock.setZ(edgeBlock.getBlockZ() + .5);
             edgeBlock.setX(edgeBlock.getBlockX() + .5);
 
             p.spigot().playEffect(edgeBlock, e, 0, 0, 0.2f, 0.2f, 0.2f, 0.2f, amt, 9);

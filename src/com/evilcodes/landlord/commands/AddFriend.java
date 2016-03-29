@@ -27,9 +27,10 @@ public class AddFriend implements LandlordCommand {
      * Adds a friend to an owned chunk
      * Called when landlord addfriend command is executed
      * This command must be run by a player
+     *
      * @param sender who executed the command
-     * @param args given with command
-     * @param label base command executed
+     * @param args   given with command
+     * @param label  base command executed
      * @return boolean
      */
     @Override
@@ -38,13 +39,13 @@ public class AddFriend implements LandlordCommand {
         if (!(sender instanceof Player)) {
             sender.sendMessage(ChatColor.DARK_RED + "This command can only be run by a player.");       //mess
         } else {
-            if (args.length < 2){
+            if (args.length < 2) {
                 sender.sendMessage(ChatColor.RED + "usage: /land addfriend <player>");      //mess
                 return true;
             }
             Player player = (Player) sender;
-            if(!player.hasPermission("landlord.player.own")){
-                player.sendMessage(ChatColor.RED+"You do not have permission.");        //mess
+            if (!player.hasPermission("landlord.player.own")) {
+                player.sendMessage(ChatColor.RED + "You do not have permission.");        //mess
                 return true;
             }
 
@@ -53,14 +54,14 @@ public class AddFriend implements LandlordCommand {
             OwnedLand land = OwnedLand.getLandFromDatabase(currChunk.getX(), currChunk.getZ(), currChunk.getWorld().getName());
 
             //Does land exist, and if so does player own it
-            if( land == null || (!land.ownerUUID().equals(player.getUniqueId()) && !player.hasPermission("landlord.admin.modifyfriends")) ){
+            if (land == null || (!land.ownerUUID().equals(player.getUniqueId()) && !player.hasPermission("landlord.admin.modifyfriends"))) {
                 player.sendMessage(ChatColor.RED + "You do not own this land.");    //mess
                 return true;
             }
             //
             OfflinePlayer possible = getOfflinePlayer(args[1]);
             if (!possible.hasPlayedBefore() && !possible.isOnline()) {
-                player.sendMessage(ChatColor.RED+"That player is not recognized."); //mess
+                player.sendMessage(ChatColor.RED + "That player is not recognized."); //mess
                 return true;
             }
             Friend friend = Friend.friendFromOfflinePlayer(getOfflinePlayer(args[1]));
@@ -70,19 +71,19 @@ public class AddFriend implements LandlordCommand {
              * *************************************
              */
 
-            if (! land.addFriend(friend)) {
+            if (!land.addFriend(friend)) {
                 player.sendMessage(ChatColor.YELLOW + "Player " + args[1] + " is already a friend of this land.");  //mess
                 return true;
             }
-            if(plugin.getConfig().getBoolean("options.particleEffects",true)){      //conf
+            if (plugin.getConfig().getBoolean("options.particleEffects", true)) {      //conf
                 land.highlightLand(player, Effect.HEART, 2);
             }
 
             plugin.getDatabase().save(land);
-            if(plugin.getConfig().getBoolean("options.soundEffects",true)){     //conf
-                player.playSound(player.getLocation(), Sound.ORB_PICKUP,10,.2f);
+            if (plugin.getConfig().getBoolean("options.soundEffects", true)) {     //conf
+                player.playSound(player.getLocation(), Sound.ORB_PICKUP, 10, .2f);
             }
-            sender.sendMessage(ChatColor.GREEN + "Player " + args[1] +" is now a friend of this land.");    //mess
+            sender.sendMessage(ChatColor.GREEN + "Player " + args[1] + " is now a friend of this land.");    //mess
             plugin.getMapManager().updateAll();
 
         }

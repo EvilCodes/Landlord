@@ -17,15 +17,16 @@ import static com.sk89q.worldguard.bukkit.BukkitUtil.toVector;
  * File edited by EvilCodes on 3/29/16.
  * Class for handling worldguard interactions
  */
-public class WorldguardHandler {
+public class WorldGuardHandler {
     WorldGuardPlugin worldguard;
 
 
     /**
      * Constructor
+     *
      * @param worldguard plugin instance
      */
-    public WorldguardHandler(WorldGuardPlugin worldguard) {
+    public WorldGuardHandler(WorldGuardPlugin worldguard) {
         this.worldguard = worldguard;
     }
 
@@ -33,16 +34,17 @@ public class WorldguardHandler {
     /**
      * Determines if a player is allowed to claim or not by
      * checking region intersections with their current chunk
-     * @param player trying to claim
+     *
+     * @param player    trying to claim
      * @param currChunk that is being claimed
      * @return boolean of allowed or not
      */
-    public boolean canClaim(Player player, Chunk currChunk){
+    public boolean canClaim(Player player, Chunk currChunk) {
         RegionManager regionManager = worldguard.getRegionManager(player.getWorld());
         //System.out.println("Has Worldguard");
-        if(regionManager != null){
+        if (regionManager != null) {
             //System.out.println("region manager not null");
-            ProtectedRegion check = new ProtectedCuboidRegion("check", toVector(currChunk.getBlock(0,0,0)),toVector(currChunk.getBlock(15,127,15)));
+            ProtectedRegion check = new ProtectedCuboidRegion("check", toVector(currChunk.getBlock(0, 0, 0)), toVector(currChunk.getBlock(15, 127, 15)));
             //System.out.println(check.getMinimumPoint() +" " + check.getMaximumPoint());
 
 

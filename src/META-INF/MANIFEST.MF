@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: spigot-1.8.8.jar worldguard-6.1.jar worldedit-bukkit-6.1.j
+ ar Vault.jar
+

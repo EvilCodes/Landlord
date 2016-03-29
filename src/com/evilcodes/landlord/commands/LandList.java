@@ -27,8 +27,9 @@ public class LandList implements LandlordCommand {
 
     /**
      * Display a list of all owned land to a player
+     *
      * @param sender who executed the command
-     * @param args given with command
+     * @param args   given with command
      * @return boolean
      */
     @Override
@@ -37,55 +38,55 @@ public class LandList implements LandlordCommand {
             sender.sendMessage(ChatColor.DARK_RED + "This command can only be run by a player.");   //mess
         } else {
             Player player = (Player) sender;
-            if(!player.hasPermission("landlord.player.own")){
-                player.sendMessage(ChatColor.RED+"You do not have permission.");        //mess
+            if (!player.hasPermission("landlord.player.own")) {
+                player.sendMessage(ChatColor.RED + "You do not have permission.");        //mess
                 return true;
             }
 
             //check if page number is valid
             int pageNumber = 1;
-            if (args.length > 1){
-                try{
-                    pageNumber = Integer.parseInt(args[1]);}
-                catch (NumberFormatException e){
-                    player.sendMessage(ChatColor.RED+"That is not a valid page number.");       //mess
+            if (args.length > 1) {
+                try {
+                    pageNumber = Integer.parseInt(args[1]);
+                } catch (NumberFormatException e) {
+                    player.sendMessage(ChatColor.RED + "That is not a valid page number.");       //mess
                     return true;
                 }
             }
 
-            List<OwnedLand> myLand = plugin.getDatabase().find(OwnedLand.class).where().eq("ownerName",player.getUniqueId().toString()).findList();
-            if(myLand.size()==0){
-                player.sendMessage(ChatColor.YELLOW+"You do not own any land!");        //mess
+            List<OwnedLand> myLand = plugin.getDatabase().find(OwnedLand.class).where().eq("ownerName", player.getUniqueId().toString()).findList();
+            if (myLand.size() == 0) {
+                player.sendMessage(ChatColor.YELLOW + "You do not own any land!");        //mess
             } else {
-                String header = ChatColor.DARK_GREEN+" | Coords - Chunk Coords - World Name |     \n";      //mess
+                String header = ChatColor.DARK_GREEN + " | Coords - Chunk Coords - World Name |     \n";      //mess
                 ArrayList<String> landList = new ArrayList<String>();
                 //OwnedLand curr = myLand.get(0);
                 for (OwnedLand aMyLand : myLand) {
-                    landList.add((ChatColor.GOLD + " ("+ aMyLand.getXBlock() +", "+ aMyLand.getZBlock() +") - (" + aMyLand.getX() + ", " + aMyLand.getZ() + ") - "      //mess
+                    landList.add((ChatColor.GOLD + " (" + aMyLand.getXBlock() + ", " + aMyLand.getZBlock() + ") - (" + aMyLand.getX() + ", " + aMyLand.getZ() + ") - "      //mess
                             + aMyLand.getWorldName()) + "\n")
                     ;
                 }
                 //Amount to be displayed per page
                 final int numPerPage = 7;
 
-                int numPages = ceil((double)landList.size()/(double)numPerPage);
-                if(pageNumber > numPages){
-                    player.sendMessage(ChatColor.RED+"That is not a valid page number.");
+                int numPages = ceil((double) landList.size() / (double) numPerPage);
+                if (pageNumber > numPages) {
+                    player.sendMessage(ChatColor.RED + "That is not a valid page number.");
                     return true;
                 }
 
                 //mess
-                String pMsg = ChatColor.DARK_GREEN+"--- " +ChatColor.YELLOW+"Your Owned Land"+ChatColor.DARK_GREEN+" ---"+ChatColor.YELLOW+" Page "+pageNumber+ChatColor.DARK_GREEN+" ---\n"+header;
-                if (pageNumber == numPages){
-                    for(int i = (numPerPage*pageNumber-numPerPage); i<landList.size(); i++){
-                        pMsg+=landList.get(i);
+                String pMsg = ChatColor.DARK_GREEN + "--- " + ChatColor.YELLOW + "Your Owned Land" + ChatColor.DARK_GREEN + " ---" + ChatColor.YELLOW + " Page " + pageNumber + ChatColor.DARK_GREEN + " ---\n" + header;
+                if (pageNumber == numPages) {
+                    for (int i = (numPerPage * pageNumber - numPerPage); i < landList.size(); i++) {
+                        pMsg += landList.get(i);
                     }
-                    pMsg+=ChatColor.DARK_GREEN+"------------------------------";    //mess
+                    pMsg += ChatColor.DARK_GREEN + "------------------------------";    //mess
                 } else {
-                    for(int i = (numPerPage*pageNumber-numPerPage); i<(numPerPage*pageNumber); i++){
-                        pMsg+=landList.get(i);
+                    for (int i = (numPerPage * pageNumber - numPerPage); i < (numPerPage * pageNumber); i++) {
+                        pMsg += landList.get(i);
                     }
-                    pMsg+=ChatColor.DARK_GREEN+"--- do"+ChatColor.YELLOW+" /"+label+" list "+(pageNumber+1)+ChatColor.DARK_GREEN+" for next page ---";      //mess
+                    pMsg += ChatColor.DARK_GREEN + "--- do" + ChatColor.YELLOW + " /" + label + " list " + (pageNumber + 1) + ChatColor.DARK_GREEN + " for next page ---";      //mess
                 }
 
                 player.sendMessage(pMsg);

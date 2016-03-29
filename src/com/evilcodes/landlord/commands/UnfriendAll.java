@@ -41,7 +41,7 @@ public class UnfriendAll implements LandlordCommand {
                 return true;
             }
 
-            List<OwnedLand> pLand = plugin.getDatabase().find(OwnedLand.class).where().eq("ownerName",player.getUniqueId()).findList();
+            List<OwnedLand> pLand = plugin.getDatabase().find(OwnedLand.class).where().eq("ownerName", player.getUniqueId()).findList();
 
             OfflinePlayer possible = getOfflinePlayer(args[1]);
             if (!possible.hasPlayedBefore() && !possible.isOnline()) {
@@ -49,18 +49,18 @@ public class UnfriendAll implements LandlordCommand {
                 return true;
             }
 
-            if (pLand.size() > 0){
-                for(OwnedLand l : pLand){
+            if (pLand.size() > 0) {
+                for (OwnedLand l : pLand) {
                     l.removeFriend(Friend.friendFromOfflinePlayer(getOfflinePlayer(args[1])));
                 }
 
                 plugin.getDatabase().save(pLand);
 
 
-                player.sendMessage(ChatColor.GREEN+args[1]+" has been removed as a friend from all of your land."); //mess
+                player.sendMessage(ChatColor.GREEN + args[1] + " has been removed as a friend from all of your land."); //mess
                 return true;
             } else {
-                player.sendMessage(ChatColor.YELLOW+"You do not own any land!");    //mess
+                player.sendMessage(ChatColor.YELLOW + "You do not own any land!");    //mess
             }
 
         }
@@ -81,6 +81,6 @@ public class UnfriendAll implements LandlordCommand {
 
     @Override
     public String[] getTriggers() {
-        return new String[]{"unfriendall","remfriendall"};
+        return new String[]{"unfriendall", "remfriendall"};
     }
 }

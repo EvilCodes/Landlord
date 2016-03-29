@@ -4,6 +4,8 @@ Landlord
 ========
 
 Landlord is a bukkit plugin for players to prevent against griefing, stealing, and animal kills in a simplified manner.
+It's currently on version 2.0.0.
+This new version was developed by EvilCodes, the former versions by Jcdesimp.
 
 Purpose
 ---------

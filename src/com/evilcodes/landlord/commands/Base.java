@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
  * File edited by EvilCodes on 3/29/16.
  * Base landlord command, no args.
  * Will display basic info about the plugin
- *
+ * <p>
  * Command is never technically registered
  */
 public class Base implements LandlordCommand {
@@ -23,17 +23,18 @@ public class Base implements LandlordCommand {
      */
     @Override
     public boolean execute(CommandSender sender, String[] args, String label) {
-        sender.sendMessage(ChatColor.DARK_GREEN + "--|| Landlord v"+ Landlord.getInstance().getDescription().getVersion() +
+        sender.sendMessage(ChatColor.DARK_GREEN + "--|| Landlord v" + Landlord.getInstance().getDescription().getVersion() +
                 " Created by " + ChatColor.BLUE + "EvilCodes and Jcdesimp " + ChatColor.DARK_GREEN + "||--\n" +
                 //ChatColor.GRAY+"(Aliases: /landlord, /land, or /ll)\n"+
-                ChatColor.DARK_GREEN+"Type " +ChatColor.YELLOW+"/"+label+" help "+ChatColor.DARK_GREEN +"for a list of commands");
+                ChatColor.DARK_GREEN + "Type " + ChatColor.YELLOW + "/" + label + " help " + ChatColor.DARK_GREEN + "for a list of commands");
         return true;
     }
 
     /**
      * No help text since base command
-     * @return  an empty string
+     *
      * @param sender
+     * @return an empty string
      */
     @Override
     public String getHelpText(CommandSender sender) {
@@ -43,7 +44,8 @@ public class Base implements LandlordCommand {
 
     /**
      * No aliases for this since base command
-     * @return  an empty string array
+     *
+     * @return an empty string array
      */
     @Override
     public String[] getTriggers() {

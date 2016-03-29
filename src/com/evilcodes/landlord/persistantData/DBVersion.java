@@ -12,13 +12,12 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("UnusedDeclaration")
 @Entity
-@Table(name="ll_version")
+@Table(name = "ll_version")
 public class DBVersion {
 
 
     @Id
     private int id;
-
 
 
     //Used to be the owners username

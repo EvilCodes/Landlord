@@ -2,3 +2,4 @@ add uuid support
 add mysql & flatfile support
 support for glowstone in corners (configurable)
 multiple languages
+migrations

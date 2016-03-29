@@ -62,6 +62,7 @@ public class HarmAnimals extends Landflag {
 
     /**
      * Event handler for block placements
+     *
      * @param event that happened
      */
 
@@ -73,46 +74,45 @@ public class HarmAnimals extends Landflag {
      * your flag to do it's job
      *************************************
      */
-
     @EventHandler(priority = EventPriority.HIGH)
-    public void animalDamage(EntityDamageByEntityEvent event){
+    public void animalDamage(EntityDamageByEntityEvent event) {
         //String[] ssafeAnimals = {"OCELOT","WOLF","HORSE","COW","PIG","MUSHROOM_COW","SHEEP","CHICKEN"};
         EntityType[] safeAnimals = {EntityType.OCELOT, EntityType.WOLF, EntityType.HORSE, EntityType.COW, EntityType.PIG,
-            EntityType.MUSHROOM_COW, EntityType.SHEEP, EntityType.CHICKEN, EntityType.RABBIT};
+                EntityType.MUSHROOM_COW, EntityType.SHEEP, EntityType.CHICKEN, EntityType.RABBIT};
         org.bukkit.entity.Entity victim = event.getEntity();
-        if(!Arrays.asList(safeAnimals).contains(victim.getType())){
+        if (!Arrays.asList(safeAnimals).contains(victim.getType())) {
             return;
         }
 
 
         org.bukkit.entity.Entity attacker = event.getDamager();
 
-        if(attacker.getType().toString().equals("PLAYER")){
-            Player p = (Player)attacker;
+        if (attacker.getType().toString().equals("PLAYER")) {
+            Player p = (Player) attacker;
             OwnedLand land = OwnedLand.getApplicableLand(victim.getLocation());
-            if(land==null){
+            if (land == null) {
                 return;
             }
-            if(!land.hasPermTo(p, this)){
+            if (!land.hasPermTo(p, this)) {
 
-                p.sendMessage(ChatColor.RED+"You cannot harm animals on this land.");
+                p.sendMessage(ChatColor.RED + "You cannot harm animals on this land.");
 
                 event.setCancelled(true);
 
             }
 
-        } else if(attacker.getType().toString().equalsIgnoreCase("Arrow") || attacker.getType().toString().equalsIgnoreCase("SPLASH_POTION")){
-            Projectile a = (Projectile)attacker;
+        } else if (attacker.getType().toString().equalsIgnoreCase("Arrow") || attacker.getType().toString().equalsIgnoreCase("SPLASH_POTION")) {
+            Projectile a = (Projectile) attacker;
             Player p;
-            if(a.getShooter() instanceof Player){
+            if (a.getShooter() instanceof Player) {
                 OwnedLand land = OwnedLand.getApplicableLand(victim.getLocation());
-                p = (Player)a.getShooter();
-                if(land==null){
+                p = (Player) a.getShooter();
+                if (land == null) {
                     return;
                 }
                 //System.out.println(a.getType());
-                if(!land.hasPermTo(p, this)){
-                    if(a.getType().toString().equals("ARROW")) {
+                if (!land.hasPermTo(p, this)) {
+                    if (a.getType().toString().equals("ARROW")) {
                         p.sendMessage(ChatColor.RED + "You cannot harm animals on this land.");
                     }
                     a.remove();
@@ -123,9 +123,6 @@ public class HarmAnimals extends Landflag {
 
         }
     }
-
-
-
 
 
 }

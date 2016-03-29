@@ -26,13 +26,13 @@ public class ClearWorld implements LandlordCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args, String label) {
-        if(!sender.hasPermission("landlord.admin.clearworld")){
-            sender.sendMessage(ChatColor.RED+"You do not have permission.");        //mess
+        if (!sender.hasPermission("landlord.admin.clearworld")) {
+            sender.sendMessage(ChatColor.RED + "You do not have permission.");        //mess
             return true;
         }
-        if(args.length > 1){
+        if (args.length > 1) {
             List<OwnedLand> land;
-            if(args.length > 2){
+            if (args.length > 2) {
                 /*
                  * *************************************
                  * mark for possible change    !!!!!!!!!
@@ -40,25 +40,25 @@ public class ClearWorld implements LandlordCommand {
                  */
                 OfflinePlayer possible = getOfflinePlayer(args[2]);
                 if (!possible.hasPlayedBefore() && !possible.isOnline()) {
-                    sender.sendMessage(ChatColor.RED+"That player is not recognized.");     //mess
+                    sender.sendMessage(ChatColor.RED + "That player is not recognized.");     //mess
                     return true;
                 }
-                land = plugin.getDatabase().find(OwnedLand.class).where().eq("ownerName",possible.getUniqueId().toString()).eq("worldName",args[1]).findList();
+                land = plugin.getDatabase().find(OwnedLand.class).where().eq("ownerName", possible.getUniqueId().toString()).eq("worldName", args[1]).findList();
             } else {
-                if(sender instanceof Player){
-                    sender.sendMessage(ChatColor.RED+"You can only delete entire worlds from the console.");    //mess
+                if (sender instanceof Player) {
+                    sender.sendMessage(ChatColor.RED + "You can only delete entire worlds from the console.");    //mess
                     return true;
                 }
-                land = plugin.getDatabase().find(OwnedLand.class).where().eq("worldName",args[1]).findList();
+                land = plugin.getDatabase().find(OwnedLand.class).where().eq("worldName", args[1]).findList();
             }
-            if(land.isEmpty()){
+            if (land.isEmpty()) {
                 sender.sendMessage(ChatColor.RED + "No land to remove.");       //mess
                 return true;
             }
 
             plugin.getDatabase().delete(land);
             plugin.getMapManager().updateAll();
-            sender.sendMessage(ChatColor.GREEN+"Land(s) deleted!");     //mess
+            sender.sendMessage(ChatColor.GREEN + "Land(s) deleted!");     //mess
 
         } else {
             sender.sendMessage(ChatColor.RED + "format: " + label + " clearworld <world> [<player>]");  //mess DUPE OF HELP, should probably make call to getHelpText
@@ -70,7 +70,7 @@ public class ClearWorld implements LandlordCommand {
     public String getHelpText(CommandSender sender) {
 
         // only bother showing them this command if they have permission to do it.
-        if(!sender.hasPermission("landlord.admin.clearworld")){
+        if (!sender.hasPermission("landlord.admin.clearworld")) {
             return null;
         }
 
@@ -89,8 +89,8 @@ public class ClearWorld implements LandlordCommand {
         helpString += Utils.helpString(usage, desc, getTriggers()[0].toLowerCase());
 
         // If chunk regen is on, warn them that bulk deletions will not regen
-        if(plugin.getConfig().getBoolean("options.regenOnUnclaim",false)){  //conf
-            helpString += ChatColor.YELLOW+" "+ChatColor.ITALIC+ chunkWarning;
+        if (plugin.getConfig().getBoolean("options.regenOnUnclaim", false)) {  //conf
+            helpString += ChatColor.YELLOW + " " + ChatColor.ITALIC + chunkWarning;
         }
 
         // return the constructed and colorized help string

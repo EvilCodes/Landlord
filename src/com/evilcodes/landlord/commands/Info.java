@@ -27,14 +27,14 @@ public class Info implements LandlordCommand {
             sender.sendMessage(ChatColor.DARK_RED + "This command can only be run by a player.");   //mess
         } else {
             Player player = (Player) sender;
-            if(!player.hasPermission("landlord.player.info")){
-                player.sendMessage(ChatColor.RED+"You do not have permission.");        //mess
+            if (!player.hasPermission("landlord.player.info")) {
+                player.sendMessage(ChatColor.RED + "You do not have permission.");        //mess
                 return true;
             }
             Chunk currChunk = player.getLocation().getChunk();
             OwnedLand land = OwnedLand.getLandFromDatabase(currChunk.getX(), currChunk.getZ(), currChunk.getWorld().getName());
             String owner = ChatColor.GRAY + "" + ChatColor.ITALIC + "None";     //mess
-            if( land != null ){
+            if (land != null) {
 
                 /*
                  * *************************************
@@ -43,16 +43,16 @@ public class Info implements LandlordCommand {
                  */
                 owner = ChatColor.GOLD + land.getOwnerUsername();
             } else {
-                land = OwnedLand.landFromProperties(null,currChunk);
+                land = OwnedLand.landFromProperties(null, currChunk);
             }
 
-            if(plugin.getConfig().getBoolean("options.particleEffects")){
+            if (plugin.getConfig().getBoolean("options.particleEffects")) {
                 land.highlightLand(player, Effect.LAVADRIP);
             }
 
             //mess
             String msg = ChatColor.DARK_GREEN + "--- You are in chunk " + ChatColor.GOLD + "(" + currChunk.getX() + ", " + currChunk.getZ() + ") " +
-                    ChatColor.DARK_GREEN + " in world \"" + ChatColor.GOLD + currChunk.getWorld().getName()  + ChatColor.DARK_GREEN + "\"\n"+ "----- Owned by: " +
+                    ChatColor.DARK_GREEN + " in world \"" + ChatColor.GOLD + currChunk.getWorld().getName() + ChatColor.DARK_GREEN + "\"\n" + "----- Owned by: " +
                     owner;
             player.sendMessage(msg);
 
@@ -63,7 +63,7 @@ public class Info implements LandlordCommand {
     @Override
     public String getHelpText(CommandSender sender) {
 
-        if(!sender.hasPermission("landlord.player.info")){   // make sure player has permission to do this command
+        if (!sender.hasPermission("landlord.player.info")) {   // make sure player has permission to do this command
             return null;
         }
 

@@ -20,7 +20,7 @@ import java.util.HashMap;
  */
 public class LandAlerter implements Listener {
 
-    HashMap<String,String> landIn = new HashMap<String, String>();
+    HashMap<String, String> landIn = new HashMap<String, String>();
 
 
     public void landAlertPlayer(Player player, Location loc) {
@@ -28,36 +28,35 @@ public class LandAlerter implements Listener {
 
 
         //Leaving Land
-        if(landIn.containsKey(player.getName())){
-            if(land==null){
+        if (landIn.containsKey(player.getName())) {
+            if (land == null) {
                 String prevName = landIn.get(player.getName());
-                if(prevName.equals(player.getName())){
-                    player.sendMessage(ChatColor.YELLOW+"** Now leaving your land.");
+                if (prevName.equals(player.getName())) {
+                    player.sendMessage(ChatColor.YELLOW + "** Now leaving your land.");
                 } else {
-                    player.sendMessage(ChatColor.YELLOW+"** Now leaving "+ prevName +"'s land.");
+                    player.sendMessage(ChatColor.YELLOW + "** Now leaving " + prevName + "'s land.");
                 }
 
             } else {
                 String prevName = landIn.get(player.getName());
-                if(!prevName.equals(land.getOwnerUsername())){
-                    if(prevName.equals(player.getName())){
-                        player.sendMessage(ChatColor.YELLOW+"** Now leaving your land.");
+                if (!prevName.equals(land.getOwnerUsername())) {
+                    if (prevName.equals(player.getName())) {
+                        player.sendMessage(ChatColor.YELLOW + "** Now leaving your land.");
                     } else {
-                        player.sendMessage(ChatColor.YELLOW+"** Now leaving "+ prevName +"'s land.");
+                        player.sendMessage(ChatColor.YELLOW + "** Now leaving " + prevName + "'s land.");
                     }
                 }
             }
         }
 
 
-
         //Entering Land
-        if(land==null){
+        if (land == null) {
             landIn.remove(player.getName());
             return;
         }
 
-        if(landIn.containsKey(player.getName())) {
+        if (landIn.containsKey(player.getName())) {
             String prevName = landIn.get(player.getName());
             if (!prevName.equals(land.getOwnerUsername())) {
                 landIn.put(player.getName(), land.getOwnerUsername());
@@ -83,12 +82,9 @@ public class LandAlerter implements Listener {
     }
 
 
-
     @EventHandler(priority = EventPriority.HIGH)
     public void alertPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
-
-
 
 
         if (player.getVehicle() != null) {
@@ -102,8 +98,6 @@ public class LandAlerter implements Listener {
             landAlertPlayer(player, event.getTo());
 
 
-
-
         }
 
     }
@@ -114,7 +108,7 @@ public class LandAlerter implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void playerLeave(PlayerQuitEvent event){
+    public void playerLeave(PlayerQuitEvent event) {
         landIn.remove(event.getPlayer().getName());
     }
 

@@ -20,28 +20,29 @@ public class ShowMap implements LandlordCommand {
 
     /**
      * Toggles the land map display
+     *
      * @param sender who executed the command
-     * @param args given with command
+     * @param args   given with command
      * @return boolean
      */
     @Override
     public boolean execute(CommandSender sender, String[] args, String label) {
-        if(!plugin.getConfig().getBoolean("options.enableMap", true)){      //conf
-            sender.sendMessage(ChatColor.YELLOW+"Land Map is disabled.");   //mess
+        if (!plugin.getConfig().getBoolean("options.enableMap", true)) {      //conf
+            sender.sendMessage(ChatColor.YELLOW + "Land Map is disabled.");   //mess
             return true;
         }
         if (!(sender instanceof Player)) {
             sender.sendMessage(ChatColor.DARK_RED + "This command can only be run by a player.");   //mess
         } else {
             Player player = (Player) sender;
-            if(!player.hasPermission("landlord.player.map")){
-                player.sendMessage(ChatColor.RED+"You do not have permission.");    //mess
+            if (!player.hasPermission("landlord.player.map")) {
+                player.sendMessage(ChatColor.RED + "You do not have permission.");    //mess
                 return true;
             }
             try {
                 plugin.getMapManager().toggleMap(player);
             } catch (Exception e) {
-                sender.sendMessage(ChatColor.RED+"Map unavailable.");   //mess
+                sender.sendMessage(ChatColor.RED + "Map unavailable.");   //mess
             }
 
         }
@@ -52,7 +53,7 @@ public class ShowMap implements LandlordCommand {
     public String getHelpText(CommandSender sender) {
 
         // only bother showing them this command if they have permission to do it.
-        if(!sender.hasPermission("landlord.player.map") || !plugin.getConfig().getBoolean("options.enableMap",true)) {
+        if (!sender.hasPermission("landlord.player.map") || !plugin.getConfig().getBoolean("options.enableMap", true)) {
             return null;
         }
 

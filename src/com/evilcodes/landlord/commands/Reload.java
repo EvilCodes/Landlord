@@ -19,26 +19,27 @@ public class Reload implements LandlordCommand {
 
     /**
      * Reload landlord configuration file
+     *
      * @param sender who executed the command
-     * @param args given with command
-     * @param label exact command (or alias) run
+     * @param args   given with command
+     * @param label  exact command (or alias) run
      * @return boolean of success
      */
     @Override
     public boolean execute(CommandSender sender, String[] args, String label) {
-        if(sender.hasPermission("landlord.admin.reload")){
+        if (sender.hasPermission("landlord.admin.reload")) {
             plugin.reloadConfig();
-            sender.sendMessage(ChatColor.GREEN+"Landlord config reloaded.");        //mess
+            sender.sendMessage(ChatColor.GREEN + "Landlord config reloaded.");        //mess
             return true;
         }
-        sender.sendMessage(ChatColor.RED+"You do not have permission.");    //mess
+        sender.sendMessage(ChatColor.RED + "You do not have permission.");    //mess
         return true;
     }
 
     @Override
     public String getHelpText(CommandSender sender) {
 
-        if(!sender.hasPermission("landlord.admin.list")){
+        if (!sender.hasPermission("landlord.admin.list")) {
             return null;
         }
 
