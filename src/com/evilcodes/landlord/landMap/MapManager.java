@@ -17,17 +17,16 @@ import java.util.HashMap;
  * File edited by EvilCodes on 3/29/16.
  */
 public class MapManager implements Listener {
+
     private HashMap<String, LandMap> mapList;
 
     public MapManager() {
         this.mapList = new HashMap<String, LandMap>();
-
     }
 
 
     private void addMap(LandMap m) {
         mapList.put(m.getMapViewer().getName(), m);
-
     }
 
     public void toggleMap(Player p) {
@@ -37,11 +36,9 @@ public class MapManager implements Listener {
             addMap(new LandMap(p));
         }
         //System.out.println(mapList.toString());
-
     }
 
     public void remMap(String pName) {
-
         if (mapList.containsKey(pName)) {
             LandMap curr = mapList.get(pName);
             curr.removeMap();

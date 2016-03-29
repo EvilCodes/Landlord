@@ -16,15 +16,15 @@ import java.util.UUID;
  * File created by jcdesimp on 3/1/14.
  * File edited by EvilCodes on 3/29/16.
  */
-@SuppressWarnings("SpellCheckingInspection")
+
 public class LandMap {
 
-    Player mapViewer;
+    private Player mapViewer;
     //Scoreboard playerMap;
-    int schedulerId;
-    Chunk currChunk;
-    List<OwnedLand> nearbyLand;
-    String currDir;
+    private int schedulerId;
+    private Chunk currChunk;
+    private List<OwnedLand> nearbyLand;
+    private String currDir;
 
     public LandMap(Player p) {
         this.mapViewer = p;

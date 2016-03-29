@@ -1,6 +1,7 @@
-package com.evilcodes.landlord.commands;
+package com.evilcodes.landlord.commands.commands;
 
 import com.evilcodes.landlord.Landlord;
+import com.evilcodes.landlord.commands.LandlordCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 

@@ -10,13 +10,13 @@ import java.util.HashMap;
  * File edited by EvilCodes on 3/29/16.
  */
 public class FlagManager {
-    HashMap<String, Landflag> registeredFlags;
-    Landlord plugin;
+
+    private HashMap<String, Landflag> registeredFlags;
+    private Landlord plugin;
 
     public FlagManager(Landlord plugin) {
         this.registeredFlags = new HashMap<String, Landflag>();
         this.plugin = plugin;
-
     }
 
     public HashMap<String, Landflag> getRegisteredFlags() {

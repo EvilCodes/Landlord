@@ -12,10 +12,9 @@ import java.util.HashMap;
  */
 public class ViewManager {
 
-    HashMap<String, LandManagerView> activeViews;
+    private HashMap<String, LandManagerView> activeViews;
 
     public ViewManager() {
-
         this.activeViews = new HashMap<String, LandManagerView>();
     }
 

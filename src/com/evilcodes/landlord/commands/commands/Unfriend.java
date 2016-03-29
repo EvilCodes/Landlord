@@ -1,6 +1,8 @@
-package com.evilcodes.landlord.commands;
+package com.evilcodes.landlord.commands.commands;
 
 import com.evilcodes.landlord.Landlord;
+import com.evilcodes.landlord.commands.LandlordCommand;
+import com.evilcodes.landlord.commands.Utils;
 import com.evilcodes.landlord.persistantData.Friend;
 import com.evilcodes.landlord.persistantData.OwnedLand;
 import org.bukkit.ChatColor;

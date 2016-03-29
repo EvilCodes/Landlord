@@ -1,6 +1,7 @@
-package com.evilcodes.landlord;
+package com.evilcodes.landlord.commands;
 
-import com.evilcodes.landlord.commands.*;
+import com.evilcodes.landlord.Landlord;
+import com.evilcodes.landlord.commands.commands.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
