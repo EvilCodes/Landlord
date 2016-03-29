@@ -14,50 +14,44 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 public class VaultHandler {
 
     private Economy economy = null;
-    private Vault plugin = null;
 
-    public VaultHandler(Vault vaultPlugin) {
-        this.plugin = vaultPlugin;
+    public VaultHandler() {
         setupEconomy();
     }
 
-
     private boolean setupEconomy() {
+        final RegisteredServiceProvider<Economy> economyProvider = Landlord.getInstance().getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        if (economyProvider != null)
+            this.economy = economyProvider.getProvider();
 
-        RegisteredServiceProvider<Economy> economyProvider = Landlord.getInstance().getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-        if (economyProvider != null) {
-            economy = economyProvider.getProvider();
-        }
-
-        return (economy != null);
+        return (this.economy != null);
     }
 
     public boolean hasEconomy() {
-
-        if (economy == null) {
+        if (this.economy == null)
             return false;
-        }
-        return true;
+        else
+            return true;
     }
 
     private boolean canAfford(Player p, double amt) {
-        if (economy.getBalance(p.getName()) >= amt) {
+        if (this.economy.hasAccount(p) && (this.economy.getBalance(p) >= amt))
             return true;
-
-        }
-        return false;
+        else
+            return false;
     }
 
     public boolean chargeCash(Player p, double amt) {
         if (canAfford(p, amt)) {
-            EconomyResponse r = economy.withdrawPlayer(p.getName(), amt);
+            economy.withdrawPlayer(p, amt);
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     public boolean giveCash(Player p, double amt) {
-        EconomyResponse r = economy.depositPlayer(p.getName(), amt);
+        economy.depositPlayer(p, amt);
         return true;
     }
 

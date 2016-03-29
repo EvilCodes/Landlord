@@ -22,14 +22,14 @@ public abstract class Landflag implements Listener {
     private String deniedText;
 
     protected Landflag(String displayName,
-                       String descrition,
+                       String description,
                        ItemStack headerItem,
                        String allowedTitle,
                        String allowedText,
                        String deniedTitle,
                        String deniedText) {
         this.displayName = displayName;
-        this.descrition = descrition;
+        this.descrition = description;
         this.headerItem = headerItem;
         this.allowedTitle = allowedTitle;
         this.allowedText = allowedText;

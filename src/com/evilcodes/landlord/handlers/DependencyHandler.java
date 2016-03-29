@@ -64,7 +64,7 @@ public class DependencyHandler {
             return false;
         } else {
             Landlord.getInstance().getLogger().info("Vault found. Economy features can work now.");
-            vaultHandler = new VaultHandler(getVaultPlugin());
+            vaultHandler = new VaultHandler();
             if (!vaultHandler.hasEconomy()) {
                 Landlord.getInstance().getLogger().warning("This Vault version does not have economy features.");
                 return false;
@@ -83,6 +83,10 @@ public class DependencyHandler {
         return (WorldGuardPlugin) worldGuard;
     }
 
+    /*
+
+    Maybe we can use this later
+
     private static Vault getVaultPlugin() {
         Plugin vault = Landlord.getInstance().getServer().getPluginManager().getPlugin("Vault");
 
@@ -92,6 +96,7 @@ public class DependencyHandler {
         }
         return (Vault) vault;
     }
+    */
 
     public static VaultHandler getVaultHandler() {
         return DependencyHandler.vaultHandler;

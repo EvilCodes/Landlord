@@ -40,18 +40,6 @@ public class LandMap {
         this.currDir = getPlayerDirection(mapViewer);
         displayMap(mapViewer);
 
-
-        /*this.schedulerId = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Landlord.getInstance(), new BukkitRunnable() {
-            @Override
-            public void run() {
-                if(!currDir.equals(getPlayerDirection(mapViewer)) || !currChunk.equals(mapViewer.getLocation().getChunk())){
-                    displayMap(mapViewer);
-                    currDir = getPlayerDirection(mapViewer);
-                }
-
-            }
-        }, 0L, 7L);*/
-
         this.schedulerId = new BukkitRunnable() {
             @Override
             public void run() {
@@ -64,8 +52,6 @@ public class LandMap {
         }.runTaskTimer(Landlord.getInstance(), 0L, 7L).getTaskId();
 
         displayMap(this.mapViewer);
-
-
     }
 
     public static String getPlayerDirection(Player playerSelf) {
@@ -115,7 +101,6 @@ public class LandMap {
     }
 
     public static String[][] getMapDir(String dir) {
-
         String[][] mapDir = new String[][]{
                 {"▓", "▒", "▒", "∞", "▒", "▒", "▓"},
                 {"▒", "▓", "▒", "∞", "▒", "▓", "▒"},
@@ -298,7 +283,6 @@ public class LandMap {
     public void removeMap() {
         mapViewer.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
         Bukkit.getServer().getScheduler().cancelTask(schedulerId);
-
     }
 
     private Scoreboard displayMap(Player p) {

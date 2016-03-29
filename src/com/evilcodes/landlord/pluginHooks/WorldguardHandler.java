@@ -18,50 +18,36 @@ import static com.sk89q.worldguard.bukkit.BukkitUtil.toVector;
  * Class for handling worldguard interactions
  */
 public class WorldGuardHandler {
-    WorldGuardPlugin worldguard;
 
+    private WorldGuardPlugin worldguard;
 
-    /**
-     * Constructor
-     *
-     * @param worldguard plugin instance
-     */
     public WorldGuardHandler(WorldGuardPlugin worldguard) {
         this.worldguard = worldguard;
     }
-
 
     /**
      * Determines if a player is allowed to claim or not by
      * checking region intersections with their current chunk
      *
      * @param player    trying to claim
-     * @param currChunk that is being claimed
+     * @param currentChunk that is being claimed
      * @return boolean of allowed or not
      */
-    public boolean canClaim(Player player, Chunk currChunk) {
-        RegionManager regionManager = worldguard.getRegionManager(player.getWorld());
-        //System.out.println("Has Worldguard");
+    public boolean canClaim(final Player player, final Chunk currentChunk) {
+        final RegionManager regionManager = worldguard.getRegionManager(player.getWorld());
+        // Check if we have a region manager for this world
         if (regionManager != null) {
-            //System.out.println("region manager not null");
-            ProtectedRegion check = new ProtectedCuboidRegion("check", toVector(currChunk.getBlock(0, 0, 0)), toVector(currChunk.getBlock(15, 127, 15)));
-            //System.out.println(check.getMinimumPoint() +" " + check.getMaximumPoint());
+            final ProtectedRegion regionToCheck = new ProtectedCuboidRegion("check", toVector(currentChunk.getBlock(0, 0, 0)), toVector(currentChunk.getBlock(15, 255, 15)));
 
-
-            //System.out.println("in try!");
-            List<ProtectedRegion> intersects = check.getIntersectingRegions(new ArrayList<ProtectedRegion>(regionManager.getRegions().values()));
-            //System.out.println("got intersects");
-            for (ProtectedRegion intersect : intersects) {
-                //System.out.println(intersects.get(i).toString());
-
+            final List<ProtectedRegion> intersectedRegions = regionToCheck.getIntersectingRegions(new ArrayList<ProtectedRegion>(regionManager.getRegions().values()));
+            for (final ProtectedRegion intersectedRegion : intersectedRegions) {
                 //todo confront deprecation
-                if (!regionManager.getApplicableRegions(intersect).canBuild(worldguard.wrapPlayer(player))) {
+                if (!regionManager.getApplicableRegions(intersectedRegion).canBuild(worldguard.wrapPlayer(player))) {
                     return false;
                 }
             }
-
-
         }
+        // Return true if the for loop did not return a false
         return true;
     }
 }

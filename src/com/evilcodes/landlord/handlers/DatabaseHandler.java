@@ -1,6 +1,8 @@
 package com.evilcodes.landlord.handlers;
 
 import com.evilcodes.landlord.Landlord;
+import com.evilcodes.landlord.utils.DatabaseInterface;
+import com.evilcodes.landlord.utils.MySQLCore;
 
 /**
  * Created by EvilCodes on 3/29/16.
@@ -13,6 +15,7 @@ public class DatabaseHandler {
     private static String mysqlUsername = "root";
     private static String mysqlPassword = "pass";
     private static String mysqlTablePrefix = "ll_";
+    private static DatabaseInterface databaseInterface;
 
     public static void init() {
         final String databaseType = FileHandler.getConfig().getString("database.type");
@@ -28,14 +31,17 @@ public class DatabaseHandler {
         if (mysql) {
             setupMysql();
             connectMysql();
+        } else {
+            setupFlatFile();
         }
-
     }
 
     public static void terminate() {
         if (mysql)
             disconnectMysql();
     }
+
+    /********************** MYSQL **********************/
 
     private static void setupMysql() {
         mysqlHost = FileHandler.getConfig().getString("database.host");
@@ -46,11 +52,32 @@ public class DatabaseHandler {
     }
 
     private static void connectMysql() {
+        databaseInterface = new MySQLCore(mysqlHost, mysqlDatabaseName, mysqlUsername, mysqlPassword);
+        if (!databaseInterface.checkConnection()) {
+            Landlord.getInstance().getLogger().warning("Could not connect to database: " + mysqlDatabaseName + " on " + mysqlHost);
+            Landlord.getInstance().getLogger().warning("Falling back to flatfile now.");
+            mysql = false;
+            setupFlatFile();
+        } else {
+            checkMysqlTables();
+        }
+    }
 
+    private static void checkMysqlTables() {
+        //TODO
     }
 
     private static void disconnectMysql() {
-        
+        if (databaseInterface.checkConnection()) {
+            //TODO Save everything
+            databaseInterface.close();
+        }
+    }
+
+    /********************** FLATFILE **********************/
+
+    private static void setupFlatFile() {
+
     }
 
 
