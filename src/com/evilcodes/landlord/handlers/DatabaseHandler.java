@@ -3,6 +3,10 @@ package com.evilcodes.landlord.handlers;
 import com.evilcodes.landlord.Landlord;
 import com.evilcodes.landlord.utils.DatabaseInterface;
 import com.evilcodes.landlord.utils.MySQLCore;
+import sun.rmi.log.LogHandler;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Created by EvilCodes on 3/29/16.
@@ -25,7 +29,7 @@ public class DatabaseHandler {
             mysql = true;
         else {
             Landlord.getInstance().getLogger().warning("Could not read config property database.type. Setting to flatfile now.");
-            mysql= false;
+            mysql = false;
         }
 
         if (mysql) {
@@ -41,7 +45,13 @@ public class DatabaseHandler {
             disconnectMysql();
     }
 
-    /********************** MYSQL **********************/
+    public static String getMysqlTablePrefix() {
+        return mysqlTablePrefix;
+    }
+
+    /**********************
+     * MYSQL
+     **********************/
 
     private static void setupMysql() {
         mysqlHost = FileHandler.getConfig().getString("database.host");
@@ -111,6 +121,53 @@ public class DatabaseHandler {
         databaseInterface.execute(flagperminsert);
     }
 
+
+    public static String getMysqlString(String query, String key) {
+        String result = "Not found";
+        if (MySQLCore.mysqlExists(query)) {
+            final ResultSet res = databaseInterface.select(query);
+            if (res != null) {
+                try {
+                    while (res.next()) {
+                        try {
+                            result = res.getString(key);
+                        } catch (Exception ex) {
+                            Landlord.getInstance().getLogger().warning("Could not read " + key + " from MySQL Database with query " + query);
+                            ex.printStackTrace();
+                        }
+                    }
+                } catch (SQLException ex) {
+                    Landlord.getInstance().getLogger().warning(String.format("An Error occurred: %s", new Object[]{Integer.valueOf(ex.getErrorCode())}));
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return result;
+    }
+
+    public static int getMysqlInt(String query, String key) {
+        int result = 0;
+        if (MySQLCore.mysqlExists(query)) {
+            final ResultSet res = databaseInterface.select(query);
+            if (res != null) {
+                try {
+                    while (res.next()) {
+                        try {
+                            result = res.getInt(key);
+                        } catch (Exception ex) {
+                            Landlord.getInstance().getLogger().warning("Could not read " + key + " from MySQL Database with query " + query);
+                            ex.printStackTrace();
+                        }
+                    }
+                } catch (SQLException ex) {
+                    Landlord.getInstance().getLogger().warning(String.format("An Error occurred: %s", new Object[]{Integer.valueOf(ex.getErrorCode())}));
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return result;
+    }
+
     private static void disconnectMysql() {
         if (databaseInterface.checkConnection()) {
             //TODO Save everything
@@ -118,12 +175,13 @@ public class DatabaseHandler {
         }
     }
 
-    /********************** FLATFILE **********************/
+    /**********************
+     * FLATFILE
+     **********************/
 
     private static void setupFlatFile() {
 
     }
-
 
 
 }
