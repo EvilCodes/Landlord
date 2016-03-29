@@ -11,18 +11,14 @@ import java.util.HashMap;
 /**
  * Command Executor class for LandLord
  */
-@SuppressWarnings("UnusedParameters")
 public class LandlordCommandExecutor implements CommandExecutor {
 
     private HashMap<String, LandlordCommand> registeredCommands;
 
-    //private Base baseCommand;
     private Help helpCommand;
 
     public LandlordCommandExecutor(Landlord plugin) {
         this.registeredCommands = new HashMap<String, LandlordCommand>();
-
-
         this.helpCommand = new Help(plugin, this);
 
         // note order of registration will affect how they show up in the help menu

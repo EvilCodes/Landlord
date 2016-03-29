@@ -64,7 +64,51 @@ public class DatabaseHandler {
     }
 
     private static void checkMysqlTables() {
-        //TODO
+        final String version = "CREATE TABLE IF NOT EXISTS `" + mysqlTablePrefix + "version` (" +
+                "  `id` int(11) NOT NULL AUTO_INCREMENT," +
+                "  `identifier` varchar(255) NOT NULL," +
+                "  `string_data` varchar(255) NOT NULL," +
+                "  `int_data` int(11) NOT NULL," +
+                "  PRIMARY KEY (`id`)" +
+                ") ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
+        final String land = "CREATE TABLE IF NOT EXISTS `" + mysqlTablePrefix + "land` (" +
+                "  `id` int(11) NOT NULL AUTO_INCREMENT," +
+                "  `owner_uuid` varchar(64) NOT NULL," +
+                "  `x` int(11) NOT NULL," +
+                "  `z` int(11) NOT NULL," +
+                "  `world_name` varchar(255) NOT NULL," +
+                "  `permissions` varchar(255) NOT NULL," +
+                "  PRIMARY KEY (`id`)" +
+                ") ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
+        final String friend = "CREATE TABLE IF NOT EXISTS `" + mysqlTablePrefix + "friend` (" +
+                "  `id` int(11) NOT NULL AUTO_INCREMENT," +
+                "  `uuid` varchar(64) NOT NULL," +
+                "  `owned_land_id` int(11) NOT NULL," +
+                "  PRIMARY KEY (`id`)," +
+                "  KEY `ix_" + mysqlTablePrefix + "friend_" + mysqlTablePrefix + "land_1` (`owned_land_id`)" +
+                ") ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
+
+        final String flagperm = "CREATE TABLE IF NOT EXISTS `" + mysqlTablePrefix + "flagperm` (" +
+                "  `id` int(11) NOT NULL AUTO_INCREMENT," +
+                "  `identifier` varchar(255) NOT NULL," +
+                "  `perm_slot` int(11) NOT NULL," +
+                "  PRIMARY KEY (`id`)" +
+                ") ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
+
+        final String flagperminsert = "INSERT INTO `" + mysqlTablePrefix + "flagperm` VALUES (1,'Build',1);" +
+                "INSERT INTO `" + mysqlTablePrefix + "flagperm` VALUES (2,'HarmAnimals',2);" +
+                "INSERT INTO `" + mysqlTablePrefix + "flagperm` VALUES (3,'UseContainers',3);" +
+                "INSERT INTO `" + mysqlTablePrefix + "flagperm` VALUES (4,'TntDamage',4);" +
+                "INSERT INTO `" + mysqlTablePrefix + "flagperm` VALUES (5,'UseRedstone',5);" +
+                "INSERT INTO `" + mysqlTablePrefix + "flagperm` VALUES (6,'OpenDoor',6);" +
+                "INSERT INTO `" + mysqlTablePrefix + "flagperm` VALUES (7,'PVP',7);" +
+                "CREATE INDEX ix_" + mysqlTablePrefix + "friend_" + mysqlTablePrefix + "land_1 on " + mysqlTablePrefix + "friend (owned_land_id);";
+
+        databaseInterface.execute(version);
+        databaseInterface.execute(land);
+        databaseInterface.execute(friend);
+        databaseInterface.execute(flagperm);
+        databaseInterface.execute(flagperminsert);
     }
 
     private static void disconnectMysql() {
