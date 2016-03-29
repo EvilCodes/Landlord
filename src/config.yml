@@ -1,5 +1,19 @@
 # Landlord Created by Jcdesimp
 # ##### DEFAULT CONFIG #####
+# Database options
+# database:
+#    #Choose flatfile or mysql database
+#    type: flatfile
+#    #Your mysql database host ip. Leave blank if you use flatfile
+#    host: 127.0.0.1
+#    #Your mysql database name
+#    name: landlord
+#    #Your mysql database username
+#    username: root
+#    #Your mysql database password
+#    password: pass
+#    #Your mysql database table prefix
+#    prefix: ll_
 # General options
 # options:
 #    #Enable sound effects when interacting with owned land.
@@ -55,6 +69,13 @@
 # - world_the_end
 # #### CONFIGURE OPTIONS BELOW ####
 
+database:
+  type: flatfile
+  host: "127.0.0.1"
+  name: "landlord"
+  username: "root"
+  password: "pass"
+  prefix: "ll_"
 options:
   soundEffects: true
   particleEffects: true
